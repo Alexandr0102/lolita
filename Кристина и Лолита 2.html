@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма выбора</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .hidden { display: none; }
+        .cat-img {
+            width: 300px;
+            height: auto;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .cat-img {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm">
+            <p>Вы Кристина или Лолита?</p>
+            <label><input type="radio" name="person" value="Кристина"> Кристина</label>
+            <label><input type="radio" name="person" value="Лолита"> Лолита</label>
+            
+            <div id="kristinaBlock" class="hidden">
+                <p>Кристина сладкая булочка?</p>
+                <label><input type="radio" name="kristina" value="Да"> Да</label>
+                <label><input type="radio" name="kristina" value="Нет"> Нет</label>
+                <p id="kristinaResult" class="hidden"></p>
+                <img src="https://i.pinimg.com/736x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg" class="cat-img hidden" id="kristinaCat" alt="Котик">
+            </div>
+            
+            <div id="lolitaBlock" class="hidden">
+                <p>Лолита сладкая булочка?</p>
+                <label><input type="radio" name="lolita" value="Да"> Да</label>
+                <label><input type="radio" name="lolita" value="Нет"> Нет</label>
+                <p id="lolitaResult" class="hidden"></p>
+                <img src="https://i.pinimg.com/736x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg" class="cat-img hidden" id="lolitaCat" alt="Котик">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Функция для отображения и скрытия блоков
+        function toggleVisibility(person) {
+            const kristinaBlock = document.getElementById('kristinaBlock');
+            const lolitaBlock = document.getElementById('lolitaBlock');
+            
+            // Показываем нужный блок в зависимости от выбора
+            if (person === 'Кристина') {
+                kristinaBlock.classList.remove('hidden');
+                lolitaBlock.classList.add('hidden');
+            } else if (person === 'Лолита') {
+                lolitaBlock.classList.remove('hidden');
+                kristinaBlock.classList.add('hidden');
+            }
+        }
+
+        // Слушаем выбор Кристины или Лолиты
+        document.querySelectorAll('input[name="person"]').forEach(input => {
+            input.addEventListener('change', function() {
+                toggleVisibility(this.value);
+                // Скрываем результаты и изображения при смене выбора
+                document.getElementById('kristinaResult').classList.add('hidden');
+                document.getElementById('lolitaResult').classList.add('hidden');
+                document.getElementById('kristinaCat').classList.add('hidden');
+                document.getElementById('lolitaCat').classList.add('hidden');
+            });
+        });
+
+        // Функция для обработки ответа на вопрос "Кристина сладкая булочка?"
+        document.querySelectorAll('input[name="kristina"]').forEach(input => {
+            input.addEventListener('change', function() {
+                let result = document.getElementById('kristinaResult');
+                let catImg = document.getElementById('kristinaCat');
+                if (this.value === 'Да') {
+                    result.textContent = 'Правильно';
+                    catImg.classList.remove('hidden');
+                } else {
+                    result.textContent = 'Подумайте еще раз';
+                    catImg.classList.add('hidden');
+                }
+                result.classList.remove('hidden');
+            });
+        });
+
+        // Функция для обработки ответа на вопрос "Лолита сладкая булочка?"
+        document.querySelectorAll('input[name="lolita"]').forEach(input => {
+            input.addEventListener('change', function() {
+                let result = document.getElementById('lolitaResult');
+                let catImg = document.getElementById('lolitaCat');
+                if (this.value === 'Да') {
+                    result.textContent = 'Правильно';
+                    catImg.classList.remove('hidden');
+                } else {
+                    result.textContent = 'Подумайте еще раз';
+                    catImg.classList.add('hidden');
+                }
+                result.classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
